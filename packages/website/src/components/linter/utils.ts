@@ -29,7 +29,7 @@ export function createCompilerOptions(
 }
 
 export function isCodeFile(fileName: string): boolean {
-  return /^\/file\.(tsx?|jsx?|d\.ts)$/.test(fileName);
+  return /^\/file\.[cm]?(tsx?|jsx?|d\.ts)$/.test(fileName);
 }
 
 export function isEslintrcFile(fileName: string): boolean {
