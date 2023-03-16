@@ -1,11 +1,11 @@
-import Dropdown from '@site/src/components/inputs/Dropdown';
-import Modal from '@site/src/components/modals/Modal';
 import clsx from 'clsx';
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 
-import useFocus from '../hooks/useFocus';
+import { useFocus } from '../../hooks/useFocus';
 import Checkbox from '../inputs/Checkbox';
+import Dropdown from '../inputs/Dropdown';
 import Text from '../inputs/Text';
+import Modal from '../layout/Modal';
 import styles from './ConfigEditor.module.css';
 
 export interface ConfigOptionsField {
@@ -113,7 +113,7 @@ function ConfigEditor(props: ConfigEditorProps): JSX.Element {
       <div className={styles.searchBar}>
         <Text
           ref={filterInput}
-          type="text"
+          type="search"
           name="config-filter"
           value={filter}
           className={styles.search}

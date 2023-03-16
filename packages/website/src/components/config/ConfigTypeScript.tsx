@@ -1,74 +1,62 @@
+import type { JSONSchema4 } from 'json-schema';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { shallowEqual } from '../lib/shallowEqual';
-import type { ConfigModel, TSConfig } from '../types';
+import type { PlaygroundSystem, TSConfig } from '../playground/types';
+import { shallowEqual } from '../util/shallowEqual';
 import type { ConfigOptionsType } from './ConfigEditor';
 import ConfigEditor from './ConfigEditor';
-import { getTypescriptOptions, parseTSConfig, toJson } from './utils';
+import { parseTSConfig, schemaToConfigOptions, toJson } from './utils';
 
 interface ConfigTypeScriptProps {
   readonly isOpen: boolean;
-  readonly onClose: (config?: Partial<ConfigModel>) => void;
-  readonly config?: string;
+  readonly onClose: (isOpen: false) => void;
+  readonly system: PlaygroundSystem;
 }
 
-function ConfigTypeScript(props: ConfigTypeScriptProps): JSX.Element {
-  const { onClose: onCloseProps, isOpen, config } = props;
+function readConfigSchema(system: PlaygroundSystem): ConfigOptionsType[] {
+  const schemaFile = system.readFile('/schema/tsconfig.schema');
+  if (schemaFile) {
+    const schema = JSON.parse(schemaFile) as JSONSchema4;
+    if (
+      schema.type === 'object' &&
+      schema.properties?.compilerOptions?.properties
+    ) {
+      return schemaToConfigOptions(
+        schema.properties.compilerOptions.properties,
+      );
+    }
+  }
+  return [];
+}
+
+function ConfigTypeScript({
+  onClose,
+  isOpen,
+  system,
+}: ConfigTypeScriptProps): JSX.Element {
   const [tsConfigOptions, updateOptions] = useState<ConfigOptionsType[]>([]);
   const [configObject, updateConfigObject] = useState<TSConfig>();
 
   useEffect(() => {
     if (isOpen) {
+      updateOptions(readConfigSchema(system));
+      const config = system.readFile('/tsconfig.json');
       updateConfigObject(parseTSConfig(config));
     }
-  }, [isOpen, config]);
+  }, [isOpen, system]);
 
-  useEffect(() => {
-    if (window.ts) {
-      updateOptions(
-        Object.values(
-          getTypescriptOptions().reduce<Record<string, ConfigOptionsType>>(
-            (group, item) => {
-              const category = item.category!.message;
-              group[category] = group[category] ?? {
-                heading: category,
-                fields: [],
-              };
-              if (item.type === 'boolean') {
-                group[category].fields.push({
-                  key: item.name,
-                  type: 'boolean',
-                  label: item.description!.message,
-                });
-              } else if (item.type instanceof Map) {
-                group[category].fields.push({
-                  key: item.name,
-                  type: 'string',
-                  label: item.description!.message,
-                  enum: ['', ...Array.from<string>(item.type.keys())],
-                });
-              }
-              return group;
-            },
-            {},
-          ),
-        ),
-      );
-    }
-  }, [isOpen]);
-
-  const onClose = useCallback(
+  const onSave = useCallback(
     (newConfig: Record<string, unknown>) => {
       const cfg = { ...newConfig };
       if (!shallowEqual(cfg, configObject?.compilerOptions)) {
-        onCloseProps({
-          tsconfig: toJson({ ...(configObject ?? {}), compilerOptions: cfg }),
-        });
-      } else {
-        onCloseProps();
+        system.writeFile(
+          '/tsconfig.json',
+          toJson({ ...(configObject ?? {}), compilerOptions: cfg }),
+        );
       }
+      onClose(false);
     },
-    [onCloseProps, configObject],
+    [onClose, configObject, system],
   );
 
   return (
@@ -77,7 +65,7 @@ function ConfigTypeScript(props: ConfigTypeScriptProps): JSX.Element {
       options={tsConfigOptions}
       values={configObject?.compilerOptions ?? {}}
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={onSave}
     />
   );
 }

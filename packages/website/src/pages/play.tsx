@@ -11,7 +11,9 @@ function Play(): JSX.Element {
           const Playground = lazy(
             () =>
               // @ts-expect-error: This does not follow Node resolution
-              import('../components/Playground') as Promise<() => JSX.Element>,
+              import('../components/playground/PlaygroundRoot') as Promise<
+                () => JSX.Element
+              >,
           );
           return (
             <Suspense fallback={<Loader />}>

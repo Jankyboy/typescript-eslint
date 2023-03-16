@@ -32,7 +32,7 @@
     "format": "prettier --write .",
     "generate-contributors": "yarn tsx ./tools/generate-contributors.ts",
     "generate-sponsors": "yarn tsx ./tools/generate-sponsors.ts",
-    "generate-website-dts": "yarn tsx ./tools/generate-website-dts.ts",
+    "generate-website-versions": "yarn tsx ./tools/generate-website-versions.ts",
     "generate-lib": "nx generate-lib @typescript-eslint/scope-manager",
     "lint-fix": "eslint . --fix",
     "lint-markdown-fix": "yarn lint-markdown --fix",
