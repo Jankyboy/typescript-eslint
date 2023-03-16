@@ -20,7 +20,7 @@ export const defaultConfig: ConfigModel = {
   eslintrc: toJson({
     rules: {},
   }),
-  code: `const x = Promise.resolve();\ntype y = Array<string>\n`,
+  code: `\n`,
 };
 
 export const tsVersions: string[] = [...versions.typescript];
