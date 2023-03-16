@@ -114,6 +114,10 @@ export default function PlaygroundLoaded({
 
     addLibFiles(system, monaco)
       .then(() => {
+        window.esquery = utils.esquery;
+        // @ts-expect-error: TODO: remove me, this is only used for debugging
+        window.system = system;
+
         const globalActions = new Map<string, Map<string, LintCodeAction[]>>();
         const linter = createLinter(monaco, onUpdate, system, utils);
         registerDefaults(monaco, linter, system);
@@ -128,9 +132,6 @@ export default function PlaygroundLoaded({
           globalActions,
         );
         registerLinter(monaco, editor, linter, globalActions);
-
-        // @ts-expect-error: TODO: remove me, this is only used for debugging
-        window.system = system;
 
         monaco.editor.setModelLanguage(
           editor.getModel()!,
