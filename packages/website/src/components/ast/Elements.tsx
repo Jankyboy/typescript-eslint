@@ -53,9 +53,7 @@ function getValues(value: object | unknown[]): [string, unknown][] {
   return Object.entries(value);
 }
 
-// TODO: ?????????????????
-// eslint-disable-next-line eslint-plugin/prefer-message-ids,eslint-plugin/require-meta-schema,eslint-plugin/require-meta-type,eslint-plugin/prefer-object-rule
-function ElementItem({
+export function ElementItem({
   level,
   selectedPath,
   propName,
@@ -167,5 +165,3 @@ function ElementItem({
     );
   }
 }
-
-export default ElementItem;

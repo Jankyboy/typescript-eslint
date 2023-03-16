@@ -1,11 +1,8 @@
+import { useWindowSize } from '@docusaurus/theme-common';
 import type * as ESQuery from 'esquery';
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  ImperativePanelHandle,
-  Panel,
-  PanelGroup,
-  PanelResizeHandle,
-} from 'react-resizable-panels';
+import type { ImperativePanelHandle } from 'react-resizable-panels';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 
 import ASTViewer from '../ast/ASTViewer';
 import ConfigEslint from '../config/ConfigEslint';
@@ -24,7 +21,6 @@ import OptionsSelector from './OptionsSelector';
 import styles from './playground.module.css';
 import PlaygroundEditor from './PlaygroundEditor';
 import type { ErrorGroup, PlaygroundSystem } from './types';
-import { useWindowSize } from '@docusaurus/theme-common';
 
 function PlaygroundRoot(): JSX.Element {
   const [config, setConfig] = useHashState(defaultConfig);

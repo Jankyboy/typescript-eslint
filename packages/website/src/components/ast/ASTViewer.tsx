@@ -5,7 +5,7 @@ import CopyButton from '../inputs/CopyButton';
 import { debounce } from '../util/debounce';
 import { scrollIntoViewIfNeeded } from '../util/scroll-into';
 import styles from './ASTViewer.module.css';
-import ElementItem from './ElementItem';
+import { ElementItem } from './Elements';
 import { findSelectionPath } from './selectedRange';
 import type { OnClickNodeFn, OnHoverNodeFn } from './types';
 import { getTooltipLabel, getTypeName } from './utils';
