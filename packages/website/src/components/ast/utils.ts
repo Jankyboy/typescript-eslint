@@ -6,7 +6,6 @@ import type { ParentNodeType } from './types';
 
 export function objType(obj: unknown): string {
   const type = Object.prototype.toString.call(obj).slice(8, -1);
-  // @ts-expect-error obj[Symbol.iterator]
   if (type === 'Object' && obj && typeof obj[Symbol.iterator] === 'function') {
     return 'Iterable';
   }
