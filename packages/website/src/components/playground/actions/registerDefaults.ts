@@ -39,6 +39,7 @@ export function getEslintSchema(linter: LinterResult): JSONSchema4 {
           type: 'string',
           enum: linter.configs,
         },
+        uniqueItems: true,
       },
       rules: {
         type: 'object',

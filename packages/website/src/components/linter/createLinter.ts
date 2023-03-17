@@ -98,16 +98,16 @@ export function createLinter(
     cfg: Partial<TSESLint.Linter.Config>,
   ): TSESLint.Linter.RulesRecord => {
     const newRules: TSESLint.Linter.RulesRecord = {};
-    if (cfg.extends) {
+    if (cfg.extends && Array.isArray(cfg.extends)) {
       for (const ext of cfg.extends) {
         if (ext in utils.configs) {
           Object.assign(newRules, getRulesFromConfig(utils.configs[ext]));
         }
       }
     }
-    if (cfg.overrides) {
+    if (cfg.overrides && Array.isArray(cfg.overrides)) {
       for (const override of cfg.overrides) {
-        // TODO: handle matching override.files
+        // we ignore match condition as we want to load them all
         Object.assign(newRules, getRulesFromConfig(override));
       }
     }
@@ -122,7 +122,6 @@ export function createLinter(
       const file = system.readFile(fileName) ?? '{}';
       const parsed = parseESLintRC(file);
       eslintConfig.rules = getRulesFromConfig(parsed);
-      console.log(eslintConfig.rules);
       eslintConfig.parserOptions ??= {};
       eslintConfig.parserOptions.sourceType =
         parsed.parserOptions?.sourceType ?? 'module';
