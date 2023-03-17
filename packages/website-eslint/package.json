@@ -23,6 +23,7 @@
     "@typescript-eslint/visitor-keys": "5.55.0",
     "@typescript-eslint/types": "5.55.0",
     "@typescript-eslint/utils": "5.55.0",
+    "@eslint/js": "^8.36.0",
     "eslint": "*",
     "esbuild": "~0.15.10",
     "esquery": "*",

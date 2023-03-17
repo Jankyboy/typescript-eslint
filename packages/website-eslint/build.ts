@@ -56,8 +56,8 @@ async function buildPackage(name: string, file: string): Promise<void> {
       'process.env.TIMING': 'undefined',
       'define.amd': 'false',
       global: 'window',
-      'process.env': 'undefined',
-      process: 'undefined',
+      // 'process.env': 'undefined',
+      // process: 'undefined',
     },
     alias: {
       util: requireResolved('./mocks/util.js'),

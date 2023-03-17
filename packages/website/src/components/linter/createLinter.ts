@@ -48,14 +48,7 @@ export function createLinter(
 
   const onLintEvents: Set<LinterOnLint> = new Set();
 
-  // TODO: add support for this
-  const configs: string[] = [
-    'eslint:all',
-    'eslint:recommended',
-    ...Object.keys(utils.configs).map(name => {
-      return `plugin:@typescript-eslint/${name}`;
-    }),
-  ];
+  const configs = Object.keys(utils.configs);
 
   const linter = new utils.Linter();
 
@@ -101,11 +94,35 @@ export function createLinter(
     return undefined;
   };
 
+  const getRulesFromConfig = (
+    cfg: Partial<TSESLint.Linter.Config>,
+  ): TSESLint.Linter.RulesRecord => {
+    const newRules: TSESLint.Linter.RulesRecord = {};
+    if (cfg.extends) {
+      for (const ext of cfg.extends) {
+        if (ext in utils.configs) {
+          Object.assign(newRules, getRulesFromConfig(utils.configs[ext]));
+        }
+      }
+    }
+    if (cfg.overrides) {
+      for (const override of cfg.overrides) {
+        // TODO: handle matching override.files
+        Object.assign(newRules, getRulesFromConfig(override));
+      }
+    }
+    if (cfg.rules) {
+      Object.assign(newRules, cfg.rules);
+    }
+    return newRules;
+  };
+
   const applyEslintConfig = (fileName: string): void => {
     try {
       const file = system.readFile(fileName) ?? '{}';
       const parsed = parseESLintRC(file);
-      eslintConfig.rules = parsed.rules;
+      eslintConfig.rules = getRulesFromConfig(parsed);
+      console.log(eslintConfig.rules);
       eslintConfig.parserOptions ??= {};
       eslintConfig.parserOptions.sourceType =
         parsed.parserOptions?.sourceType ?? 'module';

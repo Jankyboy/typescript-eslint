@@ -8,6 +8,20 @@ define(['exports', 'vs/language/typescript/tsWorker'], function (e, _t) {
   e.astConverter =
     require('@typescript-eslint/typescript-estree/dist/ast-converter').astConverter;
   e.esquery = require('esquery');
-  e.configs = eslintPlugin.configs;
   e.rules = eslintPlugin.rules;
+
+  const rules = {};
+
+  const eslintConfigs = require('@eslint/js').configs;
+
+  for (const [key, value] of Object.entries(eslintConfigs)) {
+    rules[`eslint:${key}`] = value;
+  }
+  for (const [key, value] of Object.entries(eslintPlugin.configs)) {
+    rules[`plugin:@typescript-eslint/${key}`] = value;
+  }
+
+  console.log(e.configs);
+
+  e.configs = rules;
 });
