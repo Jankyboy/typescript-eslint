@@ -39,6 +39,16 @@
   height: calc(100vh - 60px) !important;
 }
 
+.panelGroup .panelGroup {
+  height: calc(100vh - 111px) !important;
+}
+
+@media (max-width: 996px) {
+  .panelGroup .panelGroup {
+    height: auto !important;
+  }
+}
+
 .Panel {
   display: flex;
   flex-direction: row;

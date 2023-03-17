@@ -35,7 +35,11 @@ export function TypesDetails({
   }, [cursorPosition, value]);
 
   return (
-    <PanelGroup autoSaveId="playground-types" direction="horizontal">
+    <PanelGroup
+      className={playgroundStyles.panelGroup}
+      autoSaveId="playground-types"
+      direction="horizontal"
+    >
       <Panel id="simplifiedTree" defaultSize={35} collapsible={true}>
         <div className={playgroundStyles.playgroundInfoContainer}>
           <div className={astStyles.list}>
