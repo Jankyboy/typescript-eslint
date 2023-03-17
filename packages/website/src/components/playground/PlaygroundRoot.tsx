@@ -112,14 +112,12 @@ function PlaygroundRoot(): JSX.Element {
           collapsible={true}
           ref={playgroundMenuRef}
         >
-          <div className={styles.playgroundMenu}>
-            <OptionsSelector
-              config={config}
-              setConfig={setConfig}
-              enableScrolling={enableScrolling}
-              setEnableScrolling={setEnableScrolling}
-            />
-          </div>
+          <OptionsSelector
+            config={config}
+            setConfig={setConfig}
+            enableScrolling={enableScrolling}
+            setEnableScrolling={setEnableScrolling}
+          />
         </Panel>
         <PanelResizeHandle
           className={styles.PanelResizeHandle}

@@ -4,7 +4,7 @@ import {
 } from '@docusaurus/theme-common';
 import CopyIcon from '@site/src/icons/copy.svg';
 import IconExternalLink from '@theme/Icon/ExternalLink';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 
 import { useDebouncedToggle } from '../../hooks/useDebouncedToggle';
 import Checkbox from '../inputs/Checkbox';
@@ -15,6 +15,7 @@ import Expander from '../layout/Expander';
 import InputLabel from '../layout/InputLabel';
 import { fileTypes, tsVersions } from './config';
 import { createMarkdown, createMarkdownParams } from './lib/markdown';
+import styles from './playground.module.css';
 import type { ConfigModel } from './types';
 
 interface OptionsSelectorParams {
@@ -144,7 +145,12 @@ function OptionsSelector(props: OptionsSelectorParams): JSX.Element {
       />
     );
   }
-  return <OptionsSelectorContent {...props} />;
+
+  return (
+    <div className={styles.playgroundMenu}>
+      <OptionsSelectorContent {...props} />
+    </div>
+  );
 }
 
 export default OptionsSelector;
