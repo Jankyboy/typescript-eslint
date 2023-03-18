@@ -76,7 +76,7 @@ export function schemaItemToField(
       key: name,
       type: 'boolean',
       label: item.description,
-      defaults: ['error', 2, 'warn', 1, ['error'], ['warn'], [2], [1]],
+      defaults: ['error', 2, 'warn', 1],
     };
   }
   return null;
