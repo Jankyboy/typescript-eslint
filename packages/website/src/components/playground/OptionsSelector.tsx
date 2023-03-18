@@ -62,7 +62,7 @@ function OptionsSelectorContent({
 
   return (
     <>
-      <Expander label="Editor Options">
+      <Expander label="Info">
         <InputLabel name="TypeScript">
           <Dropdown
             name="ts-version"
@@ -73,6 +73,8 @@ function OptionsSelectorContent({
         </InputLabel>
         <InputLabel name="Eslint">{process.env.ESLINT_VERSION}</InputLabel>
         <InputLabel name="TSEslint">{process.env.TS_ESLINT_VERSION}</InputLabel>
+      </Expander>
+      <Expander label="Options">
         <InputLabel name="Source type">
           <Dropdown
             name="sourceType"
@@ -89,8 +91,6 @@ function OptionsSelectorContent({
             options={fileTypes}
           />
         </InputLabel>
-      </Expander>
-      <Expander label="Detail Panel">
         <InputLabel name="Auto scroll">
           <Checkbox
             name="enableScrolling"

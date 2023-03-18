@@ -7,6 +7,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import ASTViewer from '../ast/ASTViewer';
 import ConfigEslint from '../config/ConfigEslint';
 import ConfigTypeScript from '../config/ConfigTypeScript';
+import LoadingEditor from '../editor/LoadingEditor';
 import useHashState from '../hooks/useHashState';
 import EditorTabs from '../layout/EditorTabs';
 import { createFileSystem } from '../linter/bridge';
@@ -19,7 +20,6 @@ import { ErrorsViewer } from './ErrorsViewer';
 import { ESQueryFilter } from './ESQueryFilter';
 import OptionsSelector from './OptionsSelector';
 import styles from './playground.module.css';
-import PlaygroundEditor from './PlaygroundEditor';
 import type { ErrorGroup, PlaygroundSystem } from './types';
 
 function PlaygroundRoot(): JSX.Element {
@@ -135,7 +135,7 @@ function PlaygroundRoot(): JSX.Element {
               change={setFileName}
               showModal={setShowModal}
             />
-            <PlaygroundEditor
+            <LoadingEditor
               tsVersion={config.ts}
               onUpdate={setAstModel}
               system={system}

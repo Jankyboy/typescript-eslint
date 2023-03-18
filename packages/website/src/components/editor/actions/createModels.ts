@@ -1,6 +1,6 @@
 import type * as Monaco from 'monaco-editor';
 
-import type { PlaygroundSystem } from '../types';
+import type { PlaygroundSystem } from '../../playground/types';
 import { applyEdit } from './utils';
 
 export function determineLanguage(file: string): string {

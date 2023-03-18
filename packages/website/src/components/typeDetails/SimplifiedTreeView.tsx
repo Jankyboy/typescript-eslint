@@ -1,25 +1,25 @@
 import React, { useCallback, useMemo } from 'react';
 import type * as ts from 'typescript';
 
-import astStyles from '../ast/ASTViewer.module.css';
+import styles from '../ast/ASTViewer.module.css';
 import PropertyName from '../ast/PropertyName';
 import { tsEnumValue } from '../ast/tsUtils';
 import type { OnHoverNodeFn } from '../ast/types';
 import { getRange, isTSNode } from '../ast/utils';
 
-export interface SimplifiedItemProps {
+export interface SimplifiedTreeViewProps {
   readonly value: ts.Node;
   readonly selectedNode: ts.Node | undefined;
   readonly onSelect: (value: ts.Node) => void;
   readonly onHoverNode?: OnHoverNodeFn;
 }
 
-export function SimplifiedItem({
+function SimplifiedItem({
   value,
   onSelect,
   selectedNode,
   onHoverNode,
-}: SimplifiedItemProps): JSX.Element {
+}: SimplifiedTreeViewProps): JSX.Element {
   const items = useMemo(() => {
     const result: ts.Node[] = [];
     value.forEachChild(child => {
@@ -38,8 +38,8 @@ export function SimplifiedItem({
   );
 
   return (
-    <div className={astStyles.expand}>
-      <span className={selectedNode === value ? astStyles.selected : ''}>
+    <div className={styles.expand}>
+      <span className={selectedNode === value ? styles.selected : ''}>
         <PropertyName
           propName={tsEnumValue('SyntaxKind', value.kind)}
           onHover={onHover}
@@ -50,10 +50,10 @@ export function SimplifiedItem({
         />
       </span>
 
-      <div className={astStyles.subList}>
+      <div className={styles.subList}>
         {items.map((item, index) => {
           return (
-            <SimplifiedItem
+            <SimplifiedTreeView
               onHoverNode={onHoverNode}
               selectedNode={selectedNode}
               value={item}
@@ -63,6 +63,16 @@ export function SimplifiedItem({
           );
         })}
       </div>
+    </div>
+  );
+}
+
+export function SimplifiedTreeView(
+  params: SimplifiedTreeViewProps,
+): JSX.Element {
+  return (
+    <div className={styles.list}>
+      <SimplifiedItem {...params} />
     </div>
   );
 }

@@ -1,5 +1,3 @@
-import type * as Monaco from 'monaco-editor';
-
 import { toJson } from '../config/utils';
 import versions from './packageVersions.json';
 import type { ConfigModel } from './types';
@@ -50,19 +48,3 @@ export const fileTypes = [
   'cts',
   'mts',
 ] as const;
-
-export const defaultEditorOptions: Monaco.editor.IStandaloneEditorConstructionOptions =
-  {
-    minimap: {
-      enabled: false,
-    },
-    fontSize: 13,
-    wordWrap: 'off',
-    scrollBeyondLastLine: false,
-    smoothScrolling: true,
-    autoIndent: 'full',
-    formatOnPaste: true,
-    formatOnType: true,
-    wrappingIndent: 'same',
-    hover: { above: false },
-  };

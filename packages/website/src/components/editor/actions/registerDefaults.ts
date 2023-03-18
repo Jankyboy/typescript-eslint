@@ -2,7 +2,7 @@ import type { JSONSchema4 } from 'json-schema';
 import type * as Monaco from 'monaco-editor';
 
 import type { LinterResult } from '../../linter/createLinter';
-import type { PlaygroundSystem } from '../types';
+import type { PlaygroundSystem } from '../../playground/types';
 
 export function getEslintSchema(linter: LinterResult): JSONSchema4 {
   const properties: Record<string, JSONSchema4> = {};

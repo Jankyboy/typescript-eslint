@@ -14,14 +14,14 @@ import { registerEvents } from './actions/registerEvents';
 import { registerLinter } from './actions/registerLinter';
 import type { LintCodeAction } from './actions/utils';
 import { defaultEditorOptions } from './config';
-import type { PlaygroundProps } from './PlaygroundEditor';
+import type { LoadingEditorProps } from './LoadingEditor';
 
-interface PlaygroundLoadedProps extends PlaygroundProps {
+interface LoadedEditorProps extends LoadingEditorProps {
   monaco: typeof Monaco;
   utils: EslintUtilsModule;
 }
 
-export default function PlaygroundLoaded({
+export default function LoadedEditor({
   activeFile,
   system,
   onValidate,
@@ -30,7 +30,7 @@ export default function PlaygroundLoaded({
   monaco,
   utils,
   selectedRange,
-}: PlaygroundLoadedProps): JSX.Element {
+}: LoadedEditorProps): JSX.Element {
   const { colorMode } = useColorMode();
   const editorRef = useRef<Monaco.editor.IStandaloneCodeEditor>();
   const [, setDecorations] = useState<string[]>([]);

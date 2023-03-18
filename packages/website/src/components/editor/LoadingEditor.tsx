@@ -1,15 +1,15 @@
 import { loader } from '@monaco-editor/react';
-import { loadUtils } from '@site/src/components/playground/importUtils';
 import type { EslintUtilsModule } from '@typescript-eslint/website-eslint';
 import type * as Monaco from 'monaco-editor';
 import React, { useEffect, useRef, useState } from 'react';
 
 import Loader from '../layout/Loader';
 import type { UpdateModel } from '../linter/types';
-import PlaygroundLoaded from './PlaygroundLoaded';
-import type { ErrorGroup, PlaygroundSystem } from './types';
+import type { ErrorGroup, PlaygroundSystem } from '../playground/types';
+import { loadUtils } from './importUtils';
+import LoadedEditor from './LoadedEditor';
 
-export interface PlaygroundProps {
+export interface LoadingEditorProps {
   readonly activeFile: string;
   readonly tsVersion: string;
   readonly system: PlaygroundSystem;
@@ -19,7 +19,7 @@ export interface PlaygroundProps {
   readonly selectedRange?: [number, number];
 }
 
-function PlaygroundEditor(props: PlaygroundProps): JSX.Element {
+function LoadingEditor(props: LoadingEditorProps): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(true);
   const monaco = useRef<typeof Monaco>();
   const utils = useRef<EslintUtilsModule>();
@@ -55,12 +55,8 @@ function PlaygroundEditor(props: PlaygroundProps): JSX.Element {
   }
 
   return (
-    <PlaygroundLoaded
-      monaco={monaco.current}
-      utils={utils.current}
-      {...props}
-    />
+    <LoadedEditor monaco={monaco.current} utils={utils.current} {...props} />
   );
 }
 
-export default PlaygroundEditor;
+export default LoadingEditor;

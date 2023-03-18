@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import type * as ts from 'typescript';
 
-import astStyles from '../ast/ASTViewer.module.css';
 import { findSelectionPath } from '../ast/selectedRange';
 import type { OnHoverNodeFn } from '../ast/types';
 import { isTSNode } from '../ast/utils';
-import playgroundStyles from '../playground/playground.module.css';
-import { SimplifiedItem } from './SimplifiedItem';
+import styles from '../playground/playground.module.css';
+import { SimplifiedTreeView } from './SimplifiedTreeView';
 import { TypeInfo } from './TypeInfo';
 
 export interface TypesDetailsProps {
@@ -36,26 +35,24 @@ export function TypesDetails({
 
   return (
     <PanelGroup
-      className={playgroundStyles.panelGroup}
+      className={styles.panelGroup}
       autoSaveId="playground-types"
       direction="horizontal"
     >
       <Panel id="simplifiedTree" defaultSize={35} collapsible={true}>
-        <div className={playgroundStyles.playgroundInfoContainer}>
-          <div className={astStyles.list}>
-            <SimplifiedItem
-              onHoverNode={onHoverNode}
-              selectedNode={selectedNode}
-              onSelect={setSelectedNode}
-              value={value}
-            />
-          </div>
+        <div className={styles.playgroundInfoContainer}>
+          <SimplifiedTreeView
+            onHoverNode={onHoverNode}
+            selectedNode={selectedNode}
+            onSelect={setSelectedNode}
+            value={value}
+          />
         </div>
       </Panel>
-      <PanelResizeHandle className={playgroundStyles.PanelResizeHandle} />
+      <PanelResizeHandle className={styles.PanelResizeHandle} />
       {selectedNode && (
         <Panel id="typeInfo" collapsible={true}>
-          <div className={playgroundStyles.playgroundInfoContainer}>
+          <div className={styles.playgroundInfoContainer}>
             <TypeInfo
               onHoverNode={onHoverNode}
               onSelect={setSelectedNode}
