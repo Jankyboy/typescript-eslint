@@ -6,7 +6,7 @@ import CopyIcon from '@site/src/icons/copy.svg';
 import IconExternalLink from '@theme/Icon/ExternalLink';
 import React, { useCallback } from 'react';
 
-import { useDebouncedToggle } from '../../hooks/useDebouncedToggle';
+import { useClipboard } from '../../hooks/useClipboard';
 import Checkbox from '../inputs/Checkbox';
 import Dropdown from '../inputs/Dropdown';
 import Tooltip from '../inputs/Tooltip';
@@ -31,23 +31,14 @@ function OptionsSelectorContent({
   enableScrolling,
   setEnableScrolling,
 }: OptionsSelectorParams): JSX.Element {
-  const [copyLink, setCopyLink] = useDebouncedToggle<boolean>(false);
-  const [copyMarkdown, setCopyMarkdown] = useDebouncedToggle<boolean>(false);
   const windowSize = useWindowSize();
 
-  const copyLinkToClipboard = useCallback(() => {
-    void navigator.clipboard
-      .writeText(document.location.toString())
-      .then(() => {
-        setCopyLink(true);
-      });
-  }, [setCopyLink]);
-
-  const copyMarkdownToClipboard = useCallback(() => {
-    void navigator.clipboard.writeText(createMarkdown(config)).then(() => {
-      setCopyMarkdown(true);
-    });
-  }, [setCopyMarkdown, config]);
+  const [copyLink, copyLinkToClipboard] = useClipboard(() =>
+    document.location.toString(),
+  );
+  const [copyMarkdown, copyMarkdownToClipboard] = useClipboard(() =>
+    createMarkdown(config),
+  );
 
   const openIssue = useCallback((): void => {
     const params = createMarkdownParams(config);

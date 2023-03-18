@@ -1,9 +1,9 @@
 import CheckIcon from '@site/src/icons/check.svg';
 import CopyIcon from '@site/src/icons/copy.svg';
 import clsx from 'clsx';
-import React, { useCallback } from 'react';
+import React from 'react';
 
-import { useDebouncedToggle } from '../../hooks/useDebouncedToggle';
+import { useClipboard } from '../../hooks/useClipboard';
 import { jsonStringifyRecursive } from '../ast/utils';
 import styles from './CopyButton.module.css';
 import Tooltip from './Tooltip';
@@ -14,24 +14,16 @@ export interface CopyButtonProps {
 }
 
 function CopyButton({ value, className }: CopyButtonProps): JSX.Element {
-  const [on, toggle] = useDebouncedToggle(true, 3000);
-
-  const onCopy = useCallback(() => {
-    void navigator.clipboard
-      .writeText(jsonStringifyRecursive(value))
-      .then(() => {
-        toggle(false);
-      });
-  }, [value, toggle]);
+  const [on, onCopy] = useClipboard(() => jsonStringifyRecursive(value));
 
   return (
     <button
       onClick={onCopy}
-      disabled={!on}
-      aria-label={on ? 'Copy code to clipboard' : 'Copied'}
+      disabled={on}
+      aria-label={!on ? 'Copy code to clipboard' : 'Copied'}
       className={clsx(styles.copyButton, className, 'button')}
     >
-      <Tooltip open={!on} text="Copied" clasName={styles.copyButtonTooltip}>
+      <Tooltip open={on} text="Copied" clasName={styles.copyButtonTooltip}>
         <CopyIcon className={styles.copyIcon} />
         <CheckIcon className={styles.checkIcon} />
       </Tooltip>
