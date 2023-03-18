@@ -17,14 +17,6 @@ export interface ErrorGroup {
   items: ErrorItem[];
 }
 
-export type EslintRC = Record<string, unknown> & {
-  rules: TSESLint.Linter.RulesRecord;
-  extends?: string[];
-  parserOptions?: {
-    sourceType?: TSESLint.SourceType;
-  };
-};
-
 export type TSConfig = Record<string, unknown> & {
   compilerOptions: Record<string, unknown>;
 };

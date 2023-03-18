@@ -7,7 +7,7 @@ import type { ConfigOptionsType } from './ConfigEditor';
 import ConfigEditor from './ConfigEditor';
 import { parseTSConfig, schemaToConfigOptions, toJson } from './utils';
 
-interface ConfigTypeScriptProps {
+export interface ConfigTypeScriptProps {
   readonly isOpen: boolean;
   readonly onClose: (isOpen: false) => void;
   readonly system: PlaygroundSystem;
@@ -30,7 +30,7 @@ function readConfigSchema(system: PlaygroundSystem): ConfigOptionsType[] {
 }
 
 function ConfigTypeScript({
-  onClose,
+  onClose: onCloseProps,
   isOpen,
   system,
 }: ConfigTypeScriptProps): JSX.Element {
@@ -45,7 +45,7 @@ function ConfigTypeScript({
     }
   }, [isOpen, system]);
 
-  const onSave = useCallback(
+  const onClose = useCallback(
     (newConfig: Record<string, unknown>) => {
       const cfg = { ...newConfig };
       if (!shallowEqual(cfg, configObject?.compilerOptions)) {
@@ -54,9 +54,9 @@ function ConfigTypeScript({
           toJson({ ...(configObject ?? {}), compilerOptions: cfg }),
         );
       }
-      onClose(false);
+      onCloseProps(false);
     },
-    [onClose, configObject, system],
+    [onCloseProps, configObject, system],
   );
 
   return (
@@ -65,7 +65,7 @@ function ConfigTypeScript({
       options={tsConfigOptions}
       values={configObject?.compilerOptions ?? {}}
       isOpen={isOpen}
-      onClose={onSave}
+      onClose={onClose}
     />
   );
 }
