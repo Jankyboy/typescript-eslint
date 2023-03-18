@@ -10,18 +10,16 @@ define(['exports', 'vs/language/typescript/tsWorker'], function (e, _t) {
   e.esquery = require('esquery');
   e.rules = eslintPlugin.rules;
 
-  const rules = {};
+  const configs = {};
 
   const eslintConfigs = require('@eslint/js').configs;
 
   for (const [key, value] of Object.entries(eslintConfigs)) {
-    rules[`eslint:${key}`] = value;
+    configs[`eslint:${key}`] = value;
   }
   for (const [key, value] of Object.entries(eslintPlugin.configs)) {
-    rules[`plugin:@typescript-eslint/${key}`] = value;
+    configs[`plugin:@typescript-eslint/${key}`] = value;
   }
 
-  console.log(e.configs);
-
-  e.configs = rules;
+  e.configs = configs;
 });

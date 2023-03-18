@@ -94,12 +94,21 @@ export function createLinter(
     return undefined;
   };
 
+  const normalizeConfigName = (name: string): string => {
+    // ts-eslint uses relative paths to refer to configs
+    if (name.startsWith('./configs/')) {
+      return name.replace('./configs/', 'plugin:@typescript-eslint/');
+    }
+    return name;
+  };
+
   const getRulesFromConfig = (
     cfg: Partial<TSESLint.Linter.Config>,
   ): TSESLint.Linter.RulesRecord => {
     const newRules: TSESLint.Linter.RulesRecord = {};
     if (cfg.extends && Array.isArray(cfg.extends)) {
-      for (const ext of cfg.extends) {
+      for (const extendsName of cfg.extends) {
+        const ext = normalizeConfigName(extendsName);
         if (ext in utils.configs) {
           Object.assign(newRules, getRulesFromConfig(utils.configs[ext]));
         }
